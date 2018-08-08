@@ -11,7 +11,6 @@ class PersonaForm extends Component {
     this.props.addPersonaHandler(this.textInput.value);
     this.textInput.value='';
     this.textInput.focus();
-
   }
 
   render() {
