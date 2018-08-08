@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Persona from './Persona/Persona';
 import PersonaForm from './Persona/PersonaForm';
-import firebase from 'firebase';
-import 'firebase/database';
-import { DB_config } from './config/config';
+import { firebase } from './firebase';
 
 class App extends Component {
 
@@ -12,14 +10,11 @@ class App extends Component {
     super();
 
     this.state = {
-      personas: [
-        //{ personaId: 1, personaNombre: 'Dana' },
-        //{ personaId: 2, personaNombre: 'Yeral' }
-      ]
+      personas: []
     };
 
-    this.app = firebase.initializeApp(DB_config);
-    this.db = this.app.database().ref().child('persona');
+    const database = firebase.database();
+    this.db = database.ref().child('persona');
 
     this.addPersonaHandler = this.addPersonaHandler.bind(this);
     this.removePersonaHandler = this.removePersonaHandler.bind(this);
@@ -28,25 +23,19 @@ class App extends Component {
 
   //método de ciclo de vida del componente
   componentDidMount() {
-    const { personas } = this.state;
 
     this.db.on('child_added', snap => {
-      personas.push({
+      let persona = {
         personaId: snap.key,
         personaNombre: snap.val().personaNombre
-      })
-      this.setState({ personas });
+      }
+      this.setState((state, prop) => ({ personas: [...state.personas, persona] }));
     });
 
     this.db.on('child_removed', snap => {
-      for (let i = 0; i < personas.length; i++) {
-        if (personas[i].personaId = snap.key) {
-          personas.splice(i, 1);
-        }
-        this.setState({ personas });
-      }
-      this.setState({ personas });
-      
+      this.setState((state, prop)=>({
+        personas: state.personas.filter(person =>person.personaId !== snap.key)
+      }))
     });
 
   }
@@ -56,17 +45,10 @@ class App extends Component {
   }
 
   addPersonaHandler(persona) {
-    /*let {personas} = this.state;
-    personas.push({
-      personaId : personas.length + 1,
-      personaNombre : persona
-    });
-    this.setState({ personas })*/
     this.db.push().set({ personaNombre: persona });
   }
 
   render() {
-
     const style = {
       // propiedad: 'cadena'
       backgroundColor: 'rgb(238, 186, 16)',
@@ -83,6 +65,7 @@ class App extends Component {
 
     return (
       <div className="App">
+      <button onClick={()=>console.log(this.state)}>print state</button>
         <h1>Perfiles</h1>
         <button style={style}> Mostrar/Ocultar</button>
         <PersonaForm addPersonaHandler={this.addPersonaHandler} />

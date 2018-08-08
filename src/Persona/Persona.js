@@ -10,10 +10,7 @@ class Persona extends Component {
 
   removeHandler(id){
     this.props.removePersona(id);
-
   }
-
-
   render(){
     return(
       <div className="Persona">
