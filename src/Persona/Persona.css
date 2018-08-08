@@ -1,0 +1,42 @@
+.Persona{
+    width: 60%;
+    margin: 16px auto;
+    border: 1px solid #7cb2e9;
+    box-shadow: 0 2px 3px #5ea3e9;
+    padding: 16px;
+    text-align: center;
+}
+
+.buttonDelete{
+    background-color: rgb(211, 42, 19);
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.buttonDelete:hover{
+    background-color:  rgb(236, 76, 55);
+}
+
+.buttonUpdate{
+    background-color: rgb(11, 145, 18);
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.buttonUpdate:hover{
+    background-color: rgb(36, 184, 43);
+}
